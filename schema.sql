@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS product;
+
+CREATE TABLE product (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(19,2) NOT NULL,
+    category VARCHAR(100),
+    created_at TIMESTAMP
+);
