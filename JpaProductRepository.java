@@ -7,6 +7,7 @@ import gt.edu.umg.programacion2.sesion07.inventory.persistence.SpringDataProduct
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class JpaProductRepository implements IProductRepository {
     private final SpringDataProductJpa jpa;
 
