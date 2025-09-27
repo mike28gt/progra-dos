@@ -10,12 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author miguelcatalan
  */
-public class InMemoryProductRepository {
+@Repository
+@Primary
+public class InMemoryProductRepository implements ProductCommandRepository, ProductQueryRepository {
     private static final Map<Long, Product> STORE = new HashMap<>();
     private static long SEQ = 0;
     
@@ -41,7 +45,4 @@ public class InMemoryProductRepository {
     public boolean deleteById(Long id) {
         return STORE.remove(id) != null;
     }
-    
-            
-    
 }

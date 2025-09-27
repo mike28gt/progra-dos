@@ -1,9 +1,11 @@
 package gt.edu.umg.programacion2.sesion07.inventory.web;
 
+import gt.edu.umg.programacion2.sesion07.inventory.domain.Product;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.IProductRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.InMemoryProductRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.service.ProductSearch;
+import gt.edu.umg.programacion2.sesion07.inventory.service.ProductService;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -15,12 +17,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductGodController {
 
+    private final ProductService service;
+    private final ProductSearch search;
+    
+    public ProductGodController(ProductService service, ProductSearch search) {
+        IProductRepository repo = new InMemoryProductRepository();
+        this.service = new ProductService(repo);
+        this.search = search;
+    }
+    
     // ==== POST: Crear ====
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Map<String, Object> body) {
@@ -28,43 +40,41 @@ public class ProductGodController {
         BigDecimal price = new BigDecimal(String.valueOf(body.get("price")));
         String category = String.valueOf(body.get("category"));
 
-        Product p = new Product(++SEQ, name, price, category, Instant.now());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(p);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(name, price, category));
     }
 
     // ==== GET: Listar todos ====
     @GetMapping
     public List<Product> listAll() {
-
+        return service.list();
     }
 
     // ==== GET: Obtener uno ====
     @GetMapping("/{id}")
     public ResponseEntity<Product> get(@PathVariable Long id) {
-        Product p = ;
-        if (p == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(p);
+        return ResponseEntity.ok(service.get(id));
     }
 
     // ==== PUT: Actualizar ====
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Map<String, Object> body) {
-        Product p = ;
-        if (p == null) return ResponseEntity.notFound().build();
+        String name = String.valueOf(body.get("name"));
+        BigDecimal price = new BigDecimal(String.valueOf(body.get("price")));
+        String category = String.valueOf(body.get("category"));
 
-        if (body.containsKey("name")) p.name = String.valueOf(body.get("name"));
-        if (body.containsKey("price")) p.price = new BigDecimal(String.valueOf(body.get("price")));
-        if (body.containsKey("category")) p.category = String.valueOf(body.get("category"));
-
-        return ResponseEntity.ok(p);
+        return ResponseEntity.ok(service.update(id, name, price, category));
     }
 
     // ==== DELETE: Eliminar ====
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Product removed = ;
-        if (removed == null) return ResponseEntity.notFound().build();
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam String productName) {
+        return search.searchByName(productName);
+    }
+    
 }
