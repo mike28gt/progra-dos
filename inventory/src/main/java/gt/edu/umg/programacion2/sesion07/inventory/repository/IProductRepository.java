@@ -12,6 +12,7 @@ import java.util.Optional;
  *
  * @author miguelcatalan
  */
+
 public interface IProductRepository {
     public Product save(Product p);
     public List<Product> findAll();

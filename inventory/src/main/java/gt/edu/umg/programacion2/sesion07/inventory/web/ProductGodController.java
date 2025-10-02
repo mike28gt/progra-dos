@@ -3,6 +3,9 @@ package gt.edu.umg.programacion2.sesion07.inventory.web;
 import gt.edu.umg.programacion2.sesion07.inventory.domain.Product;
 import gt.edu.umg.programacion2.sesion07.inventory.repository.IProductRepository;
 import gt.edu.umg.programacion2.sesion07.inventory.repository.InMemoryProductRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.ProductQueryRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.ProductCommandRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.JpaProductRepository;
 import gt.edu.umg.programacion2.sesion07.inventory.service.ProductSearch;
 import gt.edu.umg.programacion2.sesion07.inventory.service.ProductService;
 import java.math.BigDecimal;
@@ -28,8 +31,7 @@ public class ProductGodController {
     private final ProductSearch search;
     
     public ProductGodController(ProductService service, ProductSearch search) {
-        IProductRepository repo = new InMemoryProductRepository();
-        this.service = new ProductService(repo);
+        this.service = service;
         this.search = search;
     }
     

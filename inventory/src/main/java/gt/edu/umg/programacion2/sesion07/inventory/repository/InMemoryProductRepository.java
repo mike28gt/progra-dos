@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Primary
-public class InMemoryProductRepository implements ProductCommandRepository, ProductQueryRepository {
+public class InMemoryProductRepository implements IProductRepository {
     private static final Map<Long, Product> STORE = new HashMap<>();
     private static long SEQ = 0;
     

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  * @author miguelcatalan
  */
 @Repository
-public class JpaProductRepository implements ProductCommandRepository, ProductQueryRepository {
+public class JpaProductRepository implements IProductRepository {
     private final SpringDataProductJpa jpa;
 
     public JpaProductRepository(SpringDataProductJpa jpa) {

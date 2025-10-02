@@ -8,6 +8,8 @@ import gt.edu.umg.programacion2.sesion07.inventory.domain.Product;
 import gt.edu.umg.programacion2.sesion07.inventory.persistence.SpringDataProductJpa;
 import gt.edu.umg.programacion2.sesion07.inventory.repository.IProductRepository;
 import gt.edu.umg.programacion2.sesion07.inventory.repository.InMemoryProductRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.ProductCommandRepository;
+import gt.edu.umg.programacion2.sesion07.inventory.repository.ProductQueryRepository;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
